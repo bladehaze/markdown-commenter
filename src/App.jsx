@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LZString from 'lz-string';
+import Mark from 'mark.js';
 import 'github-markdown-css/github-markdown.css';
 import './App.css';
 
@@ -12,6 +13,7 @@ function App() {
   const [showSheet, setShowSheet] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
+  const [editingCommentId, setEditingCommentId] = useState(null);
 
   // 1. URL Decoder
   useEffect(() => {
@@ -52,8 +54,8 @@ function App() {
       const selection = window.getSelection();
       const text = selection.toString().trim();
       
-      // Only show sheet if they selected a reasonable amount of text and aren't already typing a comment
-      if (text.length > 0 && !showSheet && !showCart) {
+      // Only capture selection if sheet/cart are closed
+      if (!showSheet && !showCart) {
         setActiveSelection(text);
       }
     };
@@ -62,21 +64,79 @@ function App() {
     return () => document.removeEventListener('selectionchange', handleSelection);
   }, [showSheet, showCart]);
 
+  // 3. Highlight Application
+  useEffect(() => {
+    const container = document.querySelector('.document-container');
+    if (!container) return;
+    
+    const instance = new Mark(container);
+    instance.unmark({
+      done: () => {
+        comments.forEach(c => {
+          instance.mark(c.quote, {
+            className: 'comment-highlight',
+            separateWordSearch: false,
+            acrossElements: true,
+            each: (elem) => {
+              elem.setAttribute('data-comment-id', c.id);
+            }
+          });
+        });
+      }
+    });
+  }, [comments, documentText]);
+
+  // Click Handler for Highlights
+  const handleDocumentClick = (e) => {
+    const markNode = e.target.closest('mark.comment-highlight');
+    if (markNode) {
+      const id = markNode.getAttribute('data-comment-id');
+      const comment = comments.find(c => c.id.toString() === id);
+      if (comment) {
+        window.getSelection().removeAllRanges(); // Clear any native selection
+        setActiveSelection(comment.quote);
+        setDraftComment(comment.text);
+        setEditingCommentId(comment.id);
+        setShowSheet(true);
+      }
+    }
+  };
+
   const handleOpenComment = () => {
+    setEditingCommentId(null);
     setShowSheet(true);
   };
 
   const handleSaveComment = () => {
     if (draftComment.trim() === '') return;
-    setComments([...comments, { id: Date.now(), quote: activeSelection, text: draftComment }]);
+    
+    if (editingCommentId) {
+      setComments(comments.map(c => c.id === editingCommentId ? { ...c, text: draftComment } : c));
+    } else {
+      setComments([...comments, { id: Date.now(), quote: activeSelection, text: draftComment }]);
+    }
+    
     setDraftComment('');
+    setEditingCommentId(null);
     setShowSheet(false);
     setActiveSelection('');
-    window.getSelection().removeAllRanges(); // Clear selection
+    window.getSelection().removeAllRanges();
+  };
+
+  const handleDeleteComment = () => {
+    if (editingCommentId) {
+      setComments(comments.filter(c => c.id !== editingCommentId));
+    }
+    setDraftComment('');
+    setEditingCommentId(null);
+    setShowSheet(false);
+    setActiveSelection('');
+    window.getSelection().removeAllRanges();
   };
 
   const handleCancelComment = () => {
     setDraftComment('');
+    setEditingCommentId(null);
     setShowSheet(false);
     setActiveSelection('');
     window.getSelection().removeAllRanges();
@@ -134,7 +194,7 @@ function App() {
         <button onClick={generateShareLink} className="btn-secondary">Get Share Link</button>
       </header>
 
-      <main className="document-container markdown-body">
+      <main className="document-container markdown-body" onClick={handleDocumentClick}>
         <ReactMarkdown>{documentText}</ReactMarkdown>
       </main>
 
@@ -159,8 +219,15 @@ function App() {
               autoFocus
             />
             <div className="sheet-actions">
+              {editingCommentId && (
+                <button onClick={handleDeleteComment} className="btn-cancel" style={{color: '#ef4444', marginRight: 'auto'}}>
+                  Delete
+                </button>
+              )}
               <button onClick={handleCancelComment} className="btn-cancel">Cancel</button>
-              <button onClick={handleSaveComment} className="btn-primary">Save</button>
+              <button onClick={handleSaveComment} className="btn-primary">
+                {editingCommentId ? 'Update' : 'Save'}
+              </button>
             </div>
           </div>
         </div>

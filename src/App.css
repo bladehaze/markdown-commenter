@@ -264,3 +264,28 @@ html, body {
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
+
+
+/* Comment Highlights */
+.comment-highlight {
+  background-color: #fef08a; /* Tailwind yellow-200 */
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 2px;
+}
+
+.comment-highlight:hover {
+  background-color: #fde047; /* Tailwind yellow-300 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .comment-highlight {
+    background-color: rgba(234, 179, 8, 0.4); /* yellow-600 with opacity */
+    color: inherit;
+  }
+  .comment-highlight:hover {
+    background-color: rgba(234, 179, 8, 0.6);
+  }
+}
+
