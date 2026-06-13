@@ -8,44 +8,14 @@
 }
 
 html, body {
-  height: 100%;
-  background-color: var(--color-canvas-default, #ffffff);
   margin: 0;
   padding: 0;
   width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #ffffff !important;
-  color: #000000;
-}
-
-/* Proper Dark Mode Support to override Android Forced Inversion */
-@media (prefers-color-scheme: dark) {
-  html, body {
-  height: 100%;
   background-color: var(--color-canvas-default, #ffffff);
-    background-color: #121212;
-    color: #e5e7eb;
-  }
-  .app-header {
-    background: #1f2937 !important;
-    border-bottom: 1px solid #374151 !important;
-  }
-  .bottom-sheet, .cart-modal {
-    background: #1f2937 !important;
-  }
-  textarea {
-    background: #374151;
-    color: white;
-  }
-  .quote-preview {
-    background: #374151 !important;
-    color: #e5e7eb !important;
-  }
-  .document-container code {
-    background: #374151 !important;
-    color: #e5e7eb !important;
-  }
+  color: var(--color-fg-default, #24292f);
 }
 
 .App {
@@ -54,9 +24,34 @@ html, body {
   margin: 0 auto;
   position: relative;
   min-height: 100vh;
-  background-color: var(--color-canvas-default, #ffffff);
   padding-bottom: 80px;
   overflow-x: hidden;
+  background-color: var(--color-canvas-default, #ffffff);
+}
+
+/* Explicit fallback overrides for Dark Mode */
+@media (prefers-color-scheme: dark) {
+  html, body, .App {
+    background-color: #0d1117 !important; /* GitHub dark mode background */
+  }
+  .app-header {
+    background: #161b22 !important;
+    border-bottom: 1px solid #30363d !important;
+  }
+  .bottom-sheet, .cart-modal {
+    background: #161b22 !important;
+    color: #c9d1d9 !important;
+  }
+  textarea {
+    background: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+  }
+  .quote-preview {
+    background: #21262d !important;
+    color: #c9d1d9 !important;
+    border-left: 4px solid #8b949e;
+  }
 }
 
 .app-header {
@@ -85,10 +80,8 @@ html, body {
 }
 
 .document-container ::selection {
-  background: #bfdbfe; /* Tailwind blue-200 */
+  background: #bfdbfe;
 }
-
-
 
 /* Floating Comment Button */
 .floating-comment-btn {
@@ -272,11 +265,8 @@ html, body {
 
 
 /* Comment Highlights */
-
-
-
 .comment-highlight {
-  background-color: #fef08a !important;
+  background-color: #fde047 !important; /* light yellow */
   color: #000000 !important;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -297,4 +287,3 @@ html, body {
     background-color: #facc15 !important;
   }
 }
-
