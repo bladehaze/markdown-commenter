@@ -228,3 +228,4 @@ body {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+\n\n/* Markdown Responsive Fixes */\n.document-container pre {\n  max-width: 100%;\n  overflow-x: auto;\n  background-color: #1f2937;\n  color: #e5e7eb;\n  padding: 1rem;\n  border-radius: 0.5rem;\n}\n\n.document-container code {\n  word-break: break-word;\n}\n\n.document-container pre code {\n  word-break: normal;\n}\n\n.document-container img {\n  max-width: 100%;\n  height: auto;\n}\n\n.document-container {\n  overflow-wrap: break-word;\n}\n
