@@ -269,7 +269,7 @@ html, body {
 /* Comment Highlights */
 .comment-highlight {
   background-color: #fef08a; /* Tailwind yellow-200 */
-  color: inherit;
+  color: #000000;
   cursor: pointer;
   transition: background-color 0.2s;
   border-radius: 2px;
@@ -281,11 +281,12 @@ html, body {
 
 @media (prefers-color-scheme: dark) {
   .comment-highlight {
-    background-color: rgba(234, 179, 8, 0.4); /* yellow-600 with opacity */
-    color: inherit;
+    background-color: #713f12; /* solid dark yellow-brown */ 
+    color: #ffffff;
+    color: #000000;
   }
   .comment-highlight:hover {
-    background-color: rgba(234, 179, 8, 0.6);
+    background-color: #854d0e;
   }
 }
 
