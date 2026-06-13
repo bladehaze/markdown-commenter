@@ -82,37 +82,7 @@ html, body {
   background: #bfdbfe; /* Tailwind blue-200 */
 }
 
-.document-container img {
-  max-width: 100%;
-  height: auto;
-}
 
-.document-container code {
-  background: #f3f4f6;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-family: monospace;
-  font-size: 0.9em;
-  word-break: break-word;
-}
-
-.document-container pre {
-  background-color: #1f2937;
-  color: #f9fafb;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.document-container pre code {
-  background: transparent !important;
-  padding: 0;
-  color: inherit !important;
-  word-break: normal;
-  white-space: pre;
-}
 
 /* Floating Comment Button */
 .floating-comment-btn {

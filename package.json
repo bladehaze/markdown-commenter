@@ -12,7 +12,10 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "github-markdown-css": "^5.9.0",
     "lz-string": "^1.5.0",
+    "marked": "^18.0.5",
+    "playwright": "^1.60.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LZString from 'lz-string';
+import 'github-markdown-css/github-markdown.css';
 import './App.css';
 
 function App() {
@@ -133,7 +134,7 @@ function App() {
         <button onClick={generateShareLink} className="btn-secondary">Get Share Link</button>
       </header>
 
-      <main className="document-container">
+      <main className="document-container markdown-body">
         <ReactMarkdown>{documentText}</ReactMarkdown>
       </main>
 
