@@ -271,7 +271,7 @@ html, body {
 
 
 .comment-highlight {
-  background-color: #fde047 !important; /* light yellow */
+  background-color: #fef08a !important;
   color: #000000 !important;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -285,8 +285,8 @@ html, body {
 
 @media (prefers-color-scheme: dark) {
   .comment-highlight {
-    background-color: #fde047 !important; /* Keep it bright yellow in dark mode too for maximum contrast */
-    color: #000000 !important; /* Force black text for contrast */
+    background-color: #854d0e !important; /* dark mode golden brown */
+    color: #ffffff !important; /* Force white text for contrast */
   }
   .comment-highlight:hover {
     background-color: #facc15 !important;
