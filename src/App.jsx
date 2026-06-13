@@ -14,16 +14,33 @@ function App() {
 
   // 1. URL Decoder
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search); const payload = params.get('payload') || window.location.hash.replace(/^#/, '');
-    if (payload) {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const payload = params.get('payload') || window.location.hash.replace(/^#/, '');
+
+    if (id) {
+      setDocumentText('Loading document...');
+      fetch('/api/load?id=' + id)
+        .then(res => res.json())
+        .then(data => {
+          if (data.text) {
+            setDocumentText(data.text);
+          } else {
+            setDocumentText('# Error\n\nDocument not found or expired.');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          setDocumentText('# Error\n\nFailed to load document from server.');
+        });
+    } else if (payload) {
       try {
-        // Try decoding
         let decoded = LZString.decompressFromEncodedURIComponent(payload);
         if (decoded) {
           setDocumentText(decoded);
         }
       } catch (e) {
-        console.error("Failed to decode URL hash", e);
+        console.error("Failed to decode URL payload", e);
       }
     }
   }, []);
@@ -83,11 +100,30 @@ function App() {
     }
   };
 
-  const generateShareLink = () => {
+  const generateShareLink = async () => {
+    try {
+      const response = await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: documentText })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?id=" + data.id;
+        window.history.replaceState({}, "", newUrl);
+        navigator.clipboard.writeText(newUrl);
+        alert('Share link copied to clipboard!');
+        return;
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    // Fallback
     const encoded = LZString.compressToEncodedURIComponent(documentText);
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?payload=" + encoded; window.history.replaceState({}, "", newUrl); navigator.clipboard.writeText(newUrl); return;
-    navigator.clipboard.writeText(window.location.href);
-    alert('Share link copied to clipboard!');
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?payload=" + encoded;
+    window.history.replaceState({}, "", newUrl);
+    navigator.clipboard.writeText(newUrl);
+    alert('Share link copied to clipboard! (Fallback)');
   };
 
   return (
