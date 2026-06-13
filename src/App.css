@@ -8,6 +8,8 @@
 }
 
 html, body {
+  height: 100%;
+  background-color: var(--color-canvas-default, #ffffff);
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -20,6 +22,8 @@ html, body {
 /* Proper Dark Mode Support to override Android Forced Inversion */
 @media (prefers-color-scheme: dark) {
   html, body {
+  height: 100%;
+  background-color: var(--color-canvas-default, #ffffff);
     background-color: #121212;
     color: #e5e7eb;
   }
@@ -50,6 +54,7 @@ html, body {
   margin: 0 auto;
   position: relative;
   min-height: 100vh;
+  background-color: var(--color-canvas-default, #ffffff);
   padding-bottom: 80px;
   overflow-x: hidden;
 }
