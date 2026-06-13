@@ -69,6 +69,7 @@ html, body {
 }
 
 .document-container {
+  text-align: left;
   padding: 1.5rem;
   line-height: 1.6;
   font-size: 1.1rem;
