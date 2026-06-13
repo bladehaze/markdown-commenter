@@ -14,11 +14,11 @@ function App() {
 
   // 1. URL Decoder
   useEffect(() => {
-    const hash = window.location.hash.replace(/^#/, '');
-    if (hash) {
+    const params = new URLSearchParams(window.location.search); const payload = params.get('payload') || window.location.hash.replace(/^#/, '');
+    if (payload) {
       try {
         // Try decoding
-        let decoded = LZString.decompressFromEncodedURIComponent(hash);
+        let decoded = LZString.decompressFromEncodedURIComponent(payload);
         if (decoded) {
           setDocumentText(decoded);
         }
@@ -85,7 +85,7 @@ function App() {
 
   const generateShareLink = () => {
     const encoded = LZString.compressToEncodedURIComponent(documentText);
-    window.location.hash = encoded;
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?payload=" + encoded; window.history.replaceState({}, "", newUrl); navigator.clipboard.writeText(newUrl); return;
     navigator.clipboard.writeText(window.location.href);
     alert('Share link copied to clipboard!');
   };
