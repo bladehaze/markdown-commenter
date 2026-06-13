@@ -8,6 +8,7 @@ body {
   background-color: #f9fafb;
   color: #111827;
   padding-bottom: 80px; /* Space for FAB */
+  overflow-x: hidden;
 }
 
 .App {
@@ -15,13 +16,14 @@ body {
   margin: 0 auto;
   position: relative;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   background: white;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -32,13 +34,47 @@ body {
 }
 
 .document-container {
-  padding: 2rem;
+  padding: 1.5rem;
   line-height: 1.6;
   font-size: 1.1rem;
+  overflow-x: hidden;
 }
 
 .document-container ::selection {
   background: #bfdbfe; /* Tailwind blue-200 */
+}
+
+/* Reset Markdown Styles */
+.document-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.document-container code {
+  background: #e5e7eb;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+
+.document-container pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.document-container pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  word-break: normal;
+  white-space: pre;
 }
 
 /* Floating Comment Button (Appears when text selected) */
@@ -146,14 +182,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
 }
 
 .cart-items {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -173,7 +209,7 @@ body {
 }
 
 .cart-footer {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem;
   border-top: 1px solid #e5e7eb;
   background: #f9fafb;
 }
@@ -228,61 +264,3 @@ body {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
-
-
-/* Markdown Responsive Fixes */
-.document-container pre {
-  max-width: 100%;
-  overflow-x: auto;
-  background-color: #1f2937;
-  color: #e5e7eb;
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-
-.document-container code {
-  word-break: break-word;
-}
-
-.document-container pre code {
-  word-break: normal;
-}
-
-.document-container img {
-  max-width: 100%;
-  height: auto;
-}
-
-.document-container {
-  overflow-wrap: break-word;
-}
-
-
-
-/* Aggressive Mobile Overrides */
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-.App {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-.document-container {
-  max-width: 100vw;
-  overflow-x: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.document-container * {
-  max-width: 100%;
-}
-
-.document-container pre {
-  white-space: pre-wrap; /* Wrap code block lines on mobile */
-  word-break: break-all;
-}
-
