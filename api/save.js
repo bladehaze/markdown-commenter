@@ -13,8 +13,8 @@ export default async function handler(request, response) {
     // Generate a short 8-character ID
     const id = Math.random().toString(36).substring(2, 10);
     
-    // Save to Vercel KV with a 14-day expiration (1209600 seconds)
-    await kv.set(id, text, { ex: 1209600 });
+    // Save to Vercel KV with a 24-hour expiration (1209600 seconds)
+    await kv.set(id, text, { ex: 86400 });
     
     return response.status(200).json({ id });
   } catch (error) {
