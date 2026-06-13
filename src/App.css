@@ -267,26 +267,29 @@ html, body {
 
 
 /* Comment Highlights */
+
+
+
 .comment-highlight {
-  background-color: #fef08a; /* Tailwind yellow-200 */
-  color: #000000;
+  background-color: #fde047 !important; /* light yellow */
+  color: #000000 !important;
   cursor: pointer;
   transition: background-color 0.2s;
   border-radius: 2px;
+  padding: 0 2px;
 }
 
 .comment-highlight:hover {
-  background-color: #fde047; /* Tailwind yellow-300 */
+  background-color: #facc15 !important;
 }
 
 @media (prefers-color-scheme: dark) {
   .comment-highlight {
-    background-color: #713f12; /* solid dark yellow-brown */ 
-    color: #ffffff !important;
-    color: #000000;
+    background-color: #fde047 !important; /* Keep it bright yellow in dark mode too for maximum contrast */
+    color: #000000 !important; /* Force black text for contrast */
   }
   .comment-highlight:hover {
-    background-color: #854d0e;
+    background-color: #facc15 !important;
   }
 }
 
