@@ -13,7 +13,7 @@ html, body {
   width: 100vw;
   overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #ffffff !important;
   color: #000000;
 }
 
@@ -282,7 +282,7 @@ html, body {
 @media (prefers-color-scheme: dark) {
   .comment-highlight {
     background-color: #713f12; /* solid dark yellow-brown */ 
-    color: #ffffff;
+    color: #ffffff !important;
     color: #000000;
   }
   .comment-highlight:hover {
