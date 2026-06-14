@@ -10,6 +10,7 @@ function App() {
   const [documentText, setDocumentText] = useState('# Welcome\n\nHighlight some text to add a comment! To load your own text, pass LZ-compressed data in the URL hash.');
   const [comments, setComments] = useState([]);
   const [activeSelection, setActiveSelection] = useState('');
+  const [selectionRect, setSelectionRect] = useState(null);
   const [draftComment, setDraftComment] = useState('');
   const [showSheet, setShowSheet] = useState(false);
   const [showCart, setShowCart] = useState(false);
@@ -53,11 +54,36 @@ function App() {
   useEffect(() => {
     const handleSelection = () => {
       const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        if (!showSheet && !showCart) {
+          setActiveSelection('');
+    setSelectionRect(null);
+          setSelectionRect(null);
+        }
+        return;
+      }
+      
       const text = selection.toString().trim();
       
       // Only capture selection if sheet/cart are closed
-      if (!showSheet && !showCart) {
+      if (text.length > 0 && !showSheet && !showCart) {
         setActiveSelection(text);
+        try {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          setSelectionRect({
+            top: rect.top + window.scrollY,
+            left: rect.left + window.scrollX,
+            width: rect.width,
+            height: rect.height
+          });
+        } catch(e) {
+          // ignore
+        }
+      } else if (!showSheet && !showCart) {
+        setActiveSelection('');
+    setSelectionRect(null);
+        setSelectionRect(null);
       }
     };
 
@@ -121,6 +147,7 @@ function App() {
     setEditingCommentId(null);
     setShowSheet(false);
     setActiveSelection('');
+    setSelectionRect(null);
     window.getSelection().removeAllRanges();
   };
 
@@ -132,6 +159,7 @@ function App() {
     setEditingCommentId(null);
     setShowSheet(false);
     setActiveSelection('');
+    setSelectionRect(null);
     window.getSelection().removeAllRanges();
   };
 
@@ -140,6 +168,7 @@ function App() {
     setEditingCommentId(null);
     setShowSheet(false);
     setActiveSelection('');
+    setSelectionRect(null);
     window.getSelection().removeAllRanges();
   };
 
@@ -199,10 +228,20 @@ function App() {
         {documentText.startsWith('JVBER') ? <PdfViewer base64Data={documentText} /> : <ReactMarkdown>{documentText}</ReactMarkdown>}
       </main>
 
-      {/* Selection Floating Button (Mobile friendly) */}
-      {activeSelection && !showSheet && !showCart && (
-        <button className="floating-comment-btn" onClick={handleOpenComment}>
-          💬 Comment on Selection
+      {/* Inline Tooltip Button */}
+      {activeSelection && selectionRect && !showSheet && !showCart && (
+        <button 
+          className="inline-tooltip-btn" 
+          onClick={handleOpenComment}
+          style={{
+            position: 'absolute',
+            top: `${Math.max(0, selectionRect.top - 50)}px`,
+            left: `${selectionRect.left + selectionRect.width / 2}px`,
+            transform: 'translateX(-50%)',
+            zIndex: 1000
+          }}
+        >
+          💬 Comment
         </button>
       )}
 
