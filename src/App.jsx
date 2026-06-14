@@ -127,7 +127,7 @@ function App() {
   // Click Handler for Highlights
   const handleDocumentClick = (e) => {
     // If user taps empty space (not a highlight and not the tooltip), clear selection
-    if (!e.target.closest('mark.comment-highlight') && !e.target.closest('.inline-tooltip-btn')) {
+    if (!e.target.closest('mark.comment-highlight') && !e.target.closest('.inline-tooltip-btn') && !e.target.closest('.bottom-sheet')) {
       if (activeSelection) {
         setActiveSelection('');
         setSelectionRect(null);
