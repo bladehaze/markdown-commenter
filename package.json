@@ -16,10 +16,12 @@
     "lz-string": "^1.5.0",
     "mark.js": "^8.11.1",
     "marked": "^18.0.5",
+    "pdfjs-dist": "^6.0.227",
     "playwright": "^1.60.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0",
+    "react-pdf": "^10.4.1",
     "redis": "^6.0.0"
   },
   "devDependencies": {

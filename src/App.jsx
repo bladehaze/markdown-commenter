@@ -4,6 +4,7 @@ import LZString from 'lz-string';
 import Mark from 'mark.js';
 import 'github-markdown-css/github-markdown.css';
 import './App.css';
+import PdfViewer from './PdfViewer';
 
 function App() {
   const [documentText, setDocumentText] = useState('# Welcome\n\nHighlight some text to add a comment! To load your own text, pass LZ-compressed data in the URL hash.');
@@ -195,7 +196,7 @@ function App() {
       </header>
 
       <main className="document-container markdown-body" onClick={handleDocumentClick}>
-        <ReactMarkdown>{documentText}</ReactMarkdown>
+        {documentText.startsWith('JVBER') ? <PdfViewer base64Data={documentText} /> : <ReactMarkdown>{documentText}</ReactMarkdown>}
       </main>
 
       {/* Selection Floating Button (Mobile friendly) */}
