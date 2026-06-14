@@ -123,6 +123,15 @@ function App() {
 
   // Click Handler for Highlights
   const handleDocumentClick = (e) => {
+    // If user taps empty space (not a highlight and not the tooltip), clear selection
+    if (!e.target.closest('mark.comment-highlight') && !e.target.closest('.inline-tooltip-btn')) {
+      if (activeSelection) {
+        setActiveSelection('');
+        setSelectionRect(null);
+        window.getSelection().removeAllRanges();
+      }
+      return;
+    }
     const markNode = e.target.closest('mark.comment-highlight');
     if (markNode) {
       const id = markNode.getAttribute('data-comment-id');
