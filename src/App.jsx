@@ -52,44 +52,52 @@ function App() {
 
   // 2. Selection Handler
   useEffect(() => {
+    let timeoutId = null;
+    
     const handleSelection = () => {
-      const selection = window.getSelection();
-      if (!selection || selection.rangeCount === 0) {
+      // Clear any pending calculation to let the browser settle
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      timeoutId = setTimeout(() => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0 || selection.toString().trim() === '') {
+          if (!showSheet && !showCart) {
+            setActiveSelection('');
+            setSelectionRect(null);
+          }
+          return;
+        }
+        
+        const text = selection.toString().trim();
+        
         if (!showSheet && !showCart) {
-          setActiveSelection('');
-    setSelectionRect(null);
-          setSelectionRect(null);
+          setActiveSelection(text);
+          try {
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            // Ensure we have a valid rect before setting it
+            if (rect.width > 0 && rect.height > 0) {
+              setSelectionRect({
+                top: rect.top + window.scrollY,
+                left: rect.left + window.scrollX,
+                width: rect.width,
+                height: rect.height
+              });
+            }
+          } catch(e) {
+            console.error(e);
+          }
         }
-        return;
-      }
-      
-      const text = selection.toString().trim();
-      
-      // Only capture selection if sheet/cart are closed
-      if (text.length > 0 && !showSheet && !showCart) {
-        setActiveSelection(text);
-        try {
-          const range = selection.getRangeAt(0);
-          const rect = range.getBoundingClientRect();
-          setSelectionRect({
-            top: rect.top + window.scrollY,
-            left: rect.left + window.scrollX,
-            width: rect.width,
-            height: rect.height
-          });
-        } catch(e) {
-          // ignore
-        }
-      } else if (!showSheet && !showCart) {
-        setActiveSelection('');
-    setSelectionRect(null);
-        setSelectionRect(null);
-      }
+      }, 100); // 100ms debounce
     };
 
     document.addEventListener('selectionchange', handleSelection);
-    return () => document.removeEventListener('selectionchange', handleSelection);
+    return () => {
+      document.removeEventListener('selectionchange', handleSelection);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [showSheet, showCart]);
+
 
   // 3. Highlight Application
   useEffect(() => {
