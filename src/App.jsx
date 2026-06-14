@@ -236,7 +236,7 @@ function App() {
           onPointerDown={(e) => e.preventDefault()}
           style={{
             position: 'absolute',
-            top: `${selectionRect.top + selectionRect.height + 15}px`,
+            top: `${Math.max(0, selectionRect.top - 50)}px`,
             left: `${selectionRect.left + selectionRect.width / 2}px`,
             transform: 'translateX(-50%)',
             zIndex: 1000
