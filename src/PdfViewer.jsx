@@ -37,7 +37,7 @@ export default function PdfViewer({ base64Data }) {
         alignSelf: 'center'
       }}>
         <button onClick={() => setScale(s => Math.max(0.4, s - 0.2))} className="btn-secondary" style={{padding: '4px 16px', fontSize: '1.2rem', margin: 0}}>-</button>
-        <span style={{lineHeight: '34px', fontWeight: 'bold', minWidth: '50px', textAlign: 'center'}}>{Math.round(scale * 100)}%</span>
+        <span style={{lineHeight: '34px', fontWeight: 'bold', minWidth: '50px', textAlign: 'center', color: 'var(--color-fg-default)'}}>{Math.round(scale * 100)}%</span>
         <button onClick={() => setScale(s => Math.min(3.0, s + 0.2))} className="btn-secondary" style={{padding: '4px 16px', fontSize: '1.2rem', margin: 0}}>+</button>
       </div>
 
@@ -55,8 +55,7 @@ export default function PdfViewer({ base64Data }) {
                 pageNumber={index + 1} 
                 renderTextLayer={true} 
                 renderAnnotationLayer={false}
-                width={Math.min(window.innerWidth - 40, 800)} // Base width
-                scale={scale} // Applied zoom multiplier
+                scale={scale} // Applied zoom multiplier directly instead of forced base width
               />
             </div>
           ))}
