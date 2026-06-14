@@ -100,11 +100,13 @@ function App() {
 
 
   // 3. Highlight Application
+  // Use a slight timeout to ensure React DOM has finished rendering before mark.js scans it
   useEffect(() => {
     const container = document.querySelector('.document-container');
     if (!container) return;
     
-    const instance = new Mark(container);
+    setTimeout(() => {
+      const instance = new Mark(container);
     instance.unmark({
       done: () => {
         comments.forEach(c => {
@@ -119,6 +121,7 @@ function App() {
         });
       }
     });
+      }, 50);
   }, [comments, documentText]);
 
   // Click Handler for Highlights
