@@ -157,6 +157,7 @@ function App() {
     setActiveSelection('');
     setSelectionRect(null);
     window.getSelection().removeAllRanges();
+    // explicit save trigger log
   };
 
   const handleDeleteComment = () => {
