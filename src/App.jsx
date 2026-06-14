@@ -233,6 +233,7 @@ function App() {
         <button 
           className="inline-tooltip-btn" 
           onClick={handleOpenComment}
+          onPointerDown={(e) => e.preventDefault()}
           style={{
             position: 'absolute',
             top: `${selectionRect.top + selectionRect.height + 15}px`,
