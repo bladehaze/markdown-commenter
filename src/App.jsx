@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LZString from 'lz-string';
 import Mark from 'mark.js';
+import { useFloating, shift, flip, offset } from '@floating-ui/react';
 import 'github-markdown-css/github-markdown.css';
 import './App.css';
 import PdfViewer from './PdfViewer';
@@ -16,6 +17,10 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const { refs, floatingStyles } = useFloating({
+    placement: 'bottom',
+    middleware: [offset(15), flip(), shift()],
+  });
 
   // 1. URL Decoder
   useEffect(() => {
@@ -77,6 +82,11 @@ function App() {
             const rect = range.getBoundingClientRect();
             // Ensure we have a valid rect before setting it
             if (rect.width > 0 && rect.height > 0) {
+              refs.setReference({
+                getBoundingClientRect() {
+                  return range.getBoundingClientRect();
+                },
+              });
               setSelectionRect({
                 top: rect.top,
                 left: rect.left,
@@ -278,20 +288,22 @@ function App() {
 
       {/* Inline Tooltip Button */}
       {activeSelection && selectionRect && !showSheet && !showCart && (
-        <button 
-          className="inline-tooltip-btn" 
-          onClick={handleOpenComment}
-          onPointerDown={(e) => e.preventDefault()}
+        <div
+          ref={refs.setFloating}
           style={{
-            position: 'fixed',
-            top: `${selectionRect.top + selectionRect.height + 15}px`,
-            left: `${selectionRect.left + selectionRect.width / 2}px`,
-            transform: 'translateX(-50%)',
+            ...floatingStyles,
             zIndex: 1000
           }}
         >
-          💬 Comment
-        </button>
+          <button 
+            className="inline-tooltip-btn" 
+            onClick={handleOpenComment}
+            onPointerDown={(e) => e.preventDefault()}
+            style={{ transform: 'translateX(-50%)' }}
+          >
+            💬 Comment
+          </button>
+        </div>
       )}
 
       {/* Bottom Sheet for Input */}
