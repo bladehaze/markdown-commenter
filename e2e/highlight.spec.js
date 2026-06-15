@@ -55,10 +55,10 @@ test.describe('Mobile Commenting Flow', () => {
     // 2. Select text further down the page
     await page.evaluate(() => {
       const pNodes = document.querySelectorAll('p');
-      const targetP = pNodes[pNodes.length - 1].childNodes[0];
+      const targetP = pNodes[0].childNodes[0];
       const range = document.createRange();
       range.setStart(targetP, 0);
-      range.setEnd(targetP, 15);
+      range.setEnd(targetP, 5);
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
