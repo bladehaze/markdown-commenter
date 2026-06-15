@@ -18,7 +18,7 @@ function App() {
   const [copyStatus, setCopyStatus] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
   const { refs, floatingStyles } = useFloating({
-    placement: 'bottom',
+    placement: 'right',
     middleware: [offset(15), flip(), shift()],
   });
 
@@ -299,7 +299,7 @@ function App() {
             className="inline-tooltip-btn" 
             onClick={handleOpenComment}
             onPointerDown={(e) => e.preventDefault()}
-            style={{ transform: 'translateX(-50%)' }}
+            
           >
             💬 Comment
           </button>
