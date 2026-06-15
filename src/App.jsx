@@ -78,8 +78,8 @@ function App() {
             // Ensure we have a valid rect before setting it
             if (rect.width > 0 && rect.height > 0) {
               setSelectionRect({
-                top: rect.top,
-                left: rect.left,
+                top: rect.top + window.scrollY,
+                left: rect.left + window.scrollX,
                 width: rect.width,
                 height: rect.height
               });
@@ -256,7 +256,7 @@ function App() {
           onClick={handleOpenComment}
           onPointerDown={(e) => e.preventDefault()}
           style={{
-            position: 'fixed',
+            position: 'absolute',
             top: `${selectionRect.top + selectionRect.height + 15}px`,
             left: `${selectionRect.left + selectionRect.width / 2}px`,
             transform: 'translateX(-50%)',
