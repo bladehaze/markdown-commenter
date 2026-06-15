@@ -78,8 +78,8 @@ function App() {
             // Ensure we have a valid rect before setting it
             if (rect.width > 0 && rect.height > 0) {
               setSelectionRect({
-                top: rect.top + window.scrollY,
-                left: rect.left + window.scrollX,
+                top: rect.top,
+                left: rect.left,
                 width: rect.width,
                 height: rect.height
               });
@@ -193,6 +193,33 @@ function App() {
     window.getSelection().removeAllRanges();
   };
 
+  
+  // 5. Scroll Listener to Update Tooltip Position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (activeSelection && !showSheet && !showCart) {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+          try {
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+              setSelectionRect({
+                top: rect.top,
+                left: rect.left,
+                width: rect.width,
+                height: rect.height
+              });
+            }
+          } catch(e) {}
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeSelection, showSheet, showCart]);
+
   // 4. Discord Export Generator
   const handleCopyAll = async () => {
     if (comments.length === 0) return;
@@ -256,7 +283,7 @@ function App() {
           onClick={handleOpenComment}
           onPointerDown={(e) => e.preventDefault()}
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: `${selectionRect.top + selectionRect.height + 15}px`,
             left: `${selectionRect.left + selectionRect.width / 2}px`,
             transform: 'translateX(-50%)',
